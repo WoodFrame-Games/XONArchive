@@ -1,0 +1,11 @@
+gg.alert('Запускайте скрипт в главном меню игры!')
+gg.clearResults()
+gg.searchNumber(";0a030a43-79e5-4bef-916d-da7e7fc885c6", gg.TYPE_WORD, false, gg.SIGN_EQUAL, 0, -1, 0)
+local revert = gg.getResults(100000)
+gg.editAll(";efbcdacc-4e50-4f74-ab81-ddd9eb67df13", gg.TYPE_WORD)
+
+gg.clearResults()
+gg.searchNumber(":0a030a43-79e5-4bef-916d-da7e7fc885c6", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
+revert = gg.getResults(100000)
+gg.editAll(":efbcdacc-4e50-4f74-ab81-ddd9eb67df13", gg.TYPE_BYTE)
+gg.alert('Вроде бы успешно фиксанул, пробуйте зайти в мультиплеер.')

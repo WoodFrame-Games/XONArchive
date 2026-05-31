@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Archive - XONArchive</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="XONArchive home">
+      <img src="XONArchive.jpg" alt="XONArchive">
+      <span>XONArchive</span>
+    </a>
+    <nav class="nav">
+      <a class="active" href="archive.html">Archive</a>
+      <a href="contact.html">Contact</a>
+      <a href="telegram.html">Telegram</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="page-title">
+      <p class="eyebrow">Downloads</p>
+      <h1>Архив APK</h1>
+      <p class="lead">Выбери проект, чтобы увидеть доступные версии и скачать APK-файлы из папки APKs.</p>
+    </section>
+
+    <section class="archive-layout">
+      <div class="category-list" role="tablist" aria-label="Game categories">
+        <button class="category-button active" type="button" data-game="hypper">Hypper Sandbox</button>
+        <button class="category-button" type="button" data-game="polygon">PolygonSandbox</button>
+      </div>
+      <div class="version-panel">
+        <div class="version-heading">
+          <h2 id="gameTitle">Hypper Sandbox</h2>
+          <span id="gameMeta">2 APK versions</span>
+        </div>
+        <div id="versionList" class="version-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="archive.js"></script>
+</body>
+</html>

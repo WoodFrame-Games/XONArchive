@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Telegram - XONArchive</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="XONArchive home">
+      <img src="XONArchive.jpg" alt="XONArchive">
+      <span>XONArchive</span>
+    </a>
+    <nav class="nav">
+      <a href="archive.html">Archive</a>
+      <a href="contact.html">Contact</a>
+      <a class="active" href="telegram.html">Telegram</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="page-title">
+      <p class="eyebrow">Chat export</p>
+      <h1><a href="https://t.me/HypperNet" target="_blank" rel="noreferrer">@HypperNet</a></h1>
+      <p class="lead">Ниже загружается полная история Telegram-экспорта вместе с изображениями из папки ChatExport.</p>
+    </section>
+
+    <section class="chat-tools">
+      <input id="chatSearch" type="search" placeholder="Поиск по истории" aria-label="Поиск по истории">
+      <span id="chatStatus">Загрузка сообщений...</span>
+    </section>
+
+    <section id="chatList" class="chat-list" aria-live="polite"></section>
+  </main>
+
+  <script src="telegram.js"></script>
+</body>
+</html>
