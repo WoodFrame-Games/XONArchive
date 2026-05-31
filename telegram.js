@@ -25,6 +25,21 @@ function isAvailableFile(value) {
   return value && !String(value).startsWith("(") && !missingLocalFiles.has(value);
 }
 
+function hasExtension(value, extensions) {
+  const lowered = String(value || "").toLowerCase();
+  return extensions.some((extension) => lowered.endsWith(extension));
+}
+
+function isImageAttachment(message) {
+  return (message.mime_type && message.mime_type.startsWith("image/")) ||
+    hasExtension(message.file, [".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+}
+
+function isAudioAttachment(message) {
+  return (message.mime_type && message.mime_type.startsWith("audio/")) ||
+    hasExtension(message.file, [".ogg", ".mp3", ".wav", ".m4a"]);
+}
+
 function formatBytes(value) {
   if (!Number.isFinite(value)) {
     return "";
@@ -147,21 +162,21 @@ function renderMessages(messages) {
     }
 
     if (isAvailableFile(message.file)) {
-      if (message.thumbnail && isAvailableFile(message.thumbnail)) {
-        const thumb = document.createElement("img");
-        thumb.loading = "lazy";
-        thumb.decoding = "async";
-        thumb.src = exportPath + message.thumbnail;
-        thumb.alt = message.file_name || "Telegram file preview";
-        card.append(thumb);
-      } else if (message.mime_type && message.mime_type.startsWith("image/")) {
+      if (isImageAttachment(message)) {
         const preview = document.createElement("img");
         preview.loading = "lazy";
         preview.decoding = "async";
         preview.src = exportPath + message.file;
         preview.alt = message.file_name || "Telegram image";
         card.append(preview);
-      } else if (message.mime_type && message.mime_type.startsWith("audio/")) {
+      } else if (message.thumbnail && isAvailableFile(message.thumbnail)) {
+        const thumb = document.createElement("img");
+        thumb.loading = "lazy";
+        thumb.decoding = "async";
+        thumb.src = exportPath + message.thumbnail;
+        thumb.alt = message.file_name || "Telegram file preview";
+        card.append(thumb);
+      } else if (isAudioAttachment(message)) {
         const audio = document.createElement("audio");
         audio.controls = true;
         audio.preload = "none";
@@ -175,13 +190,13 @@ function renderMessages(messages) {
       const fileSize = formatBytes(message.file_size);
       file.textContent = fileSize ? `Скачать файл · ${fileSize}` : "Скачать файл";
       card.append(file);
-    } else if (message.file_name) {
+    } else if (message.file || message.file_name) {
       const postLink = document.createElement("a");
       postLink.className = "download-button";
       postLink.href = postUrl(message);
       postLink.target = "_blank";
       postLink.rel = "noreferrer";
-      postLink.textContent = message.file_name;
+      postLink.textContent = message.file_name || "Открыть пост с файлом";
       card.append(postLink);
     }
 
