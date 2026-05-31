@@ -1,0 +1,89 @@
+// ============================================================
+//  ZOMBIE HORDE MOD  —  zombie_horde.c2s
+//  Положить в: <AppData>/mods/zombie_horde.c2s
+//
+//  Что делает:
+//    - При старте матча объявляет режим и выдаёт оружие
+//    - Каждые ~20 секунд спавнит волну NPC (0-й id)
+//    - С каждой волной количество врагов растёт
+//    - При смерти/респавне игрока снова выдаёт оружие
+// ============================================================
+
+// ---------- Глобальное состояние ----------
+
+_wave        = 0       // номер текущей волны
+_tick        = 0       // счётчик тиков (OnMatchUpdate = ~1 тик/кадр)
+_waveDelay   = 1200    // тиков между волнами (~20 сек @ 60 fps)
+_baseCount   = 3       // NPC в первой волне
+_active      = 1       // инициализируем сразу — OnMatchStart не надёжен (race condition)
+
+// ---------- Вспомогательные функции ----------
+
+// Форматированное сообщение в чат
+ModPrint = function(msg)
+    print("[HordeMod] " + msg)
+end function
+
+// Возвращает кол-во врагов для текущей волны
+EnemyCount = function()
+    return _baseCount + (_wave - 1) * 2
+end function
+
+// Спавнит волну и сообщает об этом
+SpawnWave = function()
+    globals._wave = _wave + 1
+    count = EnemyCount()
+
+    ModPrint("~~~ ВОЛНА " + _wave + " ~~~")
+    ModPrint("Противников: " + count + ". Удачи!")
+
+    for i in range(1, count)
+        SpawnNPC(0)
+    end for
+end function
+
+// ---------- Коллбэки ----------
+
+// Вызывается один раз при старте матча
+OnMatchStart = function()
+    globals._wave  = 0
+    globals._tick  = 0
+    // _active уже = 1 на верхнем уровне
+
+    ModPrint("Zombie Horde активирован!")
+    ModPrint("Первая волна через 20 секунд. Готовься.")
+
+    // Выдаём стартовое оружие (индекс 0)
+    GiveWeapon(0)
+end function
+
+// Вызывается каждый кадр
+OnMatchUpdate = function()
+    if _active == 0 then
+        return null
+    end if
+
+    globals._tick = _tick + 1
+
+    if _tick >= _waveDelay then
+        globals._tick = 0
+        SpawnWave()
+    end if
+end function
+
+// Вызывается при спавне игрока (respawn)
+OnPlayerSpawn = function()
+    if _active == 0 then
+        return null
+    end if
+
+    ModPrint("Ты возродился. Текущая волна: " + _wave)
+    GiveWeapon(0)
+end function
+
+// ---------- Регистрация коллбэков ----------
+// AddCallBack определена в mainSource (стандартная библиотека игры)
+
+AddCallBack("OnMatchStart",  CALLBACKS.OnMatchStart)
+AddCallBack("OnMatchUpdate", CALLBACKS.OnMatchUpdate)
+AddCallBack("OnPlayerSpawn", CALLBACKS.OnPlayerSpawn)

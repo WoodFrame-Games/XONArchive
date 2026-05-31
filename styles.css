@@ -293,6 +293,10 @@ h2 {
   gap: 12px;
 }
 
+.telegram-files {
+  margin-bottom: 18px;
+}
+
 .version-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -409,6 +413,18 @@ h2 {
   border-radius: 14px;
   object-fit: contain;
   background: #0c0d0f;
+}
+
+.message audio {
+  display: block;
+  width: min(100%, 680px);
+  margin-top: 12px;
+}
+
+.message img.sticker-image {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
 }
 
 .service-message {
