@@ -320,6 +320,39 @@ h2 {
   color: var(--accent-2);
 }
 
+.contact-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 22px;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #14161a;
+}
+
+.contact-row span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.contact-row a {
+  color: var(--accent-2);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.contact-row strong {
+  overflow-wrap: anywhere;
+}
+
 .chat-tools {
   position: sticky;
   top: 82px;
@@ -421,5 +454,10 @@ h2 {
   .download-button,
   .primary-link {
     width: 100%;
+  }
+
+  .contact-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 }
